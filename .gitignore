@@ -1,0 +1,6 @@
+.idea/*
+venv/*
+bot/.ipynb_checkpoints
+bot/path/*
+bot/psw.py
+bot/log.txt
