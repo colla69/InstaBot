@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 import random
 from time import sleep
@@ -14,11 +15,14 @@ def perform_with_ran_delay(fun, *args, **kwargs):
 
 
 class Logger:
-    def __init__(self,logfile):
-        self.path = logfile
+    def __init__(self, path):
+        if not os.path.exists(path):
+            os.mkdir(path)
+        self.path = path + "log.txt"
 
     def log(self, line, *args, **kwargs):
         file = open(self.path, 'a', encoding="utf-8")
-        file.write("\n{} --- {}".format(datetime.now(), line))
+        line = "{} --- {}".format(datetime.now(), line)
+        file.write("\n"+line)
         print(line, *args, **kwargs)
         file.close()

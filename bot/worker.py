@@ -7,7 +7,8 @@ from datetime import datetime
 
 scheduler = BlockingScheduler()
 job = None
-user = User(psw3()[0], psw3()[1])
+# user = User(psw3()[0], psw3()[1])
+user = User(psw2()[0], psw2()[1])
 
 
 def work():

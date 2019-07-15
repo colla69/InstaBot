@@ -10,7 +10,8 @@ class User:
         self.username = username
         self.password = psw
         self.instagram = Instagram()
-        self.logger = Logger(self.username + "/log.txt")
+        self.path = os.path.dirname(os.path.realpath(__file__)) + "/" + self.username + "/"
+        self.logger = Logger(self.path)
         self.account = None
         self.following = []
         self.following_names = []
@@ -32,10 +33,10 @@ class User:
     """########################################## instagram interactions ############################################"""
 
     def login(self):
-        self.instagram.with_credentials(self.username, self.password, 'path/to/cache/folder')
+        self.instagram.with_credentials(self.username, self.password, self.username)
         self.instagram.login()
         perform_with_ran_delay(self.load_account)
-        self.logger.log( "-----  logged in!  -----")
+        self.logger.log( "-----  logged in! as {}  -----".format(self.username))
         perform_with_ran_delay(self.load_following)
 
     def load_following(self):
@@ -91,17 +92,17 @@ class User:
         :return: list of Media
         """
         self.logger.log("starting follow_following_followers...")
-        follow = perform_with_ran_delay(self.instagram.get_followers, self.account.identifier, 150, 15, delayed=True)
-        for acc in follow["accounts"]:
+        follows_accounts = self.following
+        random.shuffle(follows_accounts)
+        for acc in follows_accounts:
             try:
                 try:
-                    followw = perform_with_ran_delay(self.instagram.get_followers, acc.identifier, 150, 15,
+                    followw = perform_with_ran_delay(self.instagram.get_followers, acc, 150, 15,
                                                      delayed=True)
                     accountstofollow = followw["accounts"]
                     random.shuffle(accountstofollow)
                     if len(accountstofollow) > 10:
                         accountstofollow = accountstofollow[:10]
-                    # print("{} follows me, do I follow him ? > {} ".format(ac.username, self.is_user_following(ac.identifier)))
                     for ac in accountstofollow:
                         if not self.is_user_following(ac.identifier):
                             self.add_following(ac.identifier)

@@ -9,18 +9,18 @@ from bot.humanized_bot import HumanizedBot
 def do_follow_followers():
     while True:
         user.follow_followers()
-        sleep(3600)
+        sleep(18000)
 
 
 def do_follow_followers():
     while True:
         user.follow_followers()
-        sleep(3600)
+        sleep(18000)
 
 
 start = datetime.now()
 
-user = HumanizedBot(psw3()[0], psw3()[1])
+user = HumanizedBot(psw4()[0], psw4()[1])
 user.login()
 
 job_threads = [
